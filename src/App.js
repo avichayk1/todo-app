@@ -1,24 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Login from './login.js';
+import Register from './register.js';
+import Home from './home.js';
+import EnterPage from './enterPage';
 
-function App() {
+export function App() {
+  const [isLogin, setisLogin] = useState(true);
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  // Redirect function to navigate to the login page
+  const redirectToLogin = () => {
+    navigate('/login');
+  };
+  const toggleForm = () => {
+    setisLogin(!isLogin);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            isLogin ? (
+              <Login onFormSwitch={toggleForm} />
+            ) : (
+              <Register onFormSwitch={toggleForm} />
+            )
+          }
+        ></Route>
+        <Route
+          path="/home"
+          element={<Home />}
+        />
+        <Route
+          path="/"
+          element={<EnterPage />}
+        ></Route>
+      </Routes>
+    </React.Fragment>
   );
 }
 
