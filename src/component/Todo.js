@@ -3,16 +3,33 @@ import { useState, useContext, useEffect } from 'react';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { todos } from '../API/todos';
-import { useUser } from '../context/UserContext.js';
+import { UserContext } from '../context/UserContext.js';
 
 const Todo = (props) => {
-  const user = useUser();
+  // const user = useUser();
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/todos'
+        );
+        const data = await response.json();
+        setTodoList(data); // Update the state with the fetched data
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const [user, setUser] = useContext(UserContext);
   let penStyle = { color: 'blue' };
   let trashStyle = { color: 'red' };
-  const t = fetch('https://jsonplaceholder.typicode.com/todos/1').then((res) =>
-    res.json()
-  );
-  let [todoList, setTodoList] = useState();
+  // const t = fetch('https://jsonplaceholder.typicode.com/todos/1').then((res) =>
+  //   res.json()
+  // );
   return (
     <div className="todoapp stack-large">
       <h1>TodoList</h1>

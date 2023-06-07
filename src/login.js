@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { UserContext } from './context/UserContext';
 const Login = (props) => {
+  const userString = localStorage.getItem('user');
+  const [user, setUser] = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let current = '';
@@ -25,9 +27,11 @@ const Login = (props) => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((res) => res.json())
       .then((data) => {
-        data.forEach((user) => {
-          if (user.email === email && user.username === username) {
-            current = user;
+        data.forEach((u) => {
+          if (u.email === email && u.username === username) {
+            current = u;
+            console.log(user);
+            setUser();
             credentialsMatch = true;
           }
         });

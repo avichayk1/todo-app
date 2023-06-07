@@ -1,9 +1,10 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 
-export const UserContext = createContext();
-export function useUser() {
-  return useContext(UserContext);
-}
+export const UserContext = createContext([null, null]);
+
+// export function useUser() {
+//   return useContext(UserContext);
+// }
 const getUser = () => {
   const userString = localStorage.getItem('user');
   const user = JSON.parse(userString);
@@ -14,6 +15,12 @@ function UserContextProvider({ children }) {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
+    let u = getUser();
+    if (u) {
+      console.log(getUser());
+    } else {
+      console.log('lllllllllllllllllllllllllllllll');
+    }
     if (getUser()) {
       setUser(getUser());
     } else {
