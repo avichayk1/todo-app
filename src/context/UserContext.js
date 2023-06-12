@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 
-export const UserContext = createContext([null, null]);
+export const UserContext = createContext();
 
 // export function useUser() {
 //   return useContext(UserContext);
@@ -8,31 +8,31 @@ export const UserContext = createContext([null, null]);
 const getUser = () => {
   const userString = localStorage.getItem('user');
   const user = JSON.parse(userString);
-  return user ? user : null;
+  if (user) {
+    return user;
+  } else {
+    return null;
+  }
 };
 
 function UserContextProvider({ children }) {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(getUser());
 
-  useEffect(() => {
-    let u = getUser();
-    if (u) {
-      console.log(getUser());
-    } else {
-      console.log('lllllllllllllllllllllllllllllll');
-    }
-    if (getUser()) {
-      setUser(getUser());
-    } else {
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          user: null,
-          admin: null,
-        })
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   let u = getUser();
+  //   if (u) {
+  //     setUser(u);
+  //   } else {
+  //     localStorage.setItem(
+  //       'user',
+  //       JSON.stringify({
+  //         user: null,
+  //         admin: null,
+  //       })
+  //     );
+  //   }
+  //   console.log(user);
+  // }, []);
 
   return (
     <UserContext.Provider value={[user, setUser]}>

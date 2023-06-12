@@ -1,47 +1,46 @@
 import React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
+import getUsers from './API/users';
 const Login = (props) => {
-  const userString = localStorage.getItem('user');
+  // const userString = localStorage.getItem('user');
   const [user, setUser] = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+  useEffect(() => {
+    getUsers()
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.log('Error fetching users:', error);
+      });
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     let current = '';
     let credentialsMatch = false;
-    console.log(
-      fetch('https://jsonplaceholder.typicode.com/todos')
-        .then((res) => res.json())
-        .then((data) => {
-          data.forEach((d) => {});
-        })
-    );
-    let to = fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((res) => res.json())
-      .then((data) => {
-        data.forEach((d) => {});
-      });
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((res) => res.json())
-      .then((data) => {
-        data.forEach((u) => {
-          if (u.email === email && u.username === username) {
-            current = u;
-            console.log(user);
-            setUser();
-            credentialsMatch = true;
-          }
-        });
-        if (credentialsMatch) {
-          localStorage.setItem('user', JSON.stringify(current));
-          navigate('/home');
-        } else {
-          console.log('Invalid credentials');
-        }
-      });
+    // fetch('https://jsonplaceholder.typicode.com/users')
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    users.forEach((u) => {
+      if (u.email === email && u.username === username) {
+        current = u;
+        console.log(user);
+        setUser();
+        credentialsMatch = true;
+      }
+    });
+    if (credentialsMatch) {
+      localStorage.setItem('user', JSON.stringify(current));
+      navigate('/home');
+    } else {
+      console.log('Invalid credentials');
+    }
+    // });
   };
   return (
     <React.Fragment>

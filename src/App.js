@@ -5,30 +5,32 @@ import Login from './login.js';
 import Register from './register.js';
 import Home from './home.js';
 import EnterPage from './enterPage';
+import UserContextProvider from './context/UserContext';
 
 export function App() {
-  const [isLogin, setisLogin] = useState(true);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  // const [isLogin, setisLogin] = useState(true);
+  // const navigate = useNavigate(); // Initialize useNavigate hook
 
-  // Redirect function to navigate to the login page
-  const redirectToLogin = () => {
-    navigate('/login');
-  };
-  const toggleForm = () => {
-    setisLogin(!isLogin);
-  };
+  // // Redirect function to navigate to the login page
+  // const redirectToLogin = () => {
+  //   navigate('/login');
+  // };
+  // const toggleForm = () => {
+  //   setisLogin(!isLogin);
+  // };
 
   return (
-    <React.Fragment>
+    <UserContextProvider>
       <Routes>
         <Route
           path="/login"
           element={
-            isLogin ? (
-              <Login onFormSwitch={toggleForm} />
-            ) : (
-              <Register onFormSwitch={toggleForm} />
-            )
+            <Login />
+            // isLogin ? (
+            //   <Login onFormSwitch={toggleForm} />
+            // ) : (
+            //   <Register onFormSwitch={toggleForm} />
+            // )
           }
         ></Route>
         <Route
@@ -40,7 +42,7 @@ export function App() {
           element={<EnterPage />}
         ></Route>
       </Routes>
-    </React.Fragment>
+    </UserContextProvider>
   );
 }
 
