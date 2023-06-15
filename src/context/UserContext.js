@@ -14,7 +14,6 @@ const getUser = () => {
     return null;
   }
 };
-
 function UserContextProvider({ children }) {
   const [user, setUser] = useState(getUser());
 

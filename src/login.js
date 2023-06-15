@@ -30,13 +30,15 @@ const Login = (props) => {
       if (u.email === email && u.username === username) {
         current = u;
         console.log(user);
-        setUser();
+        setUser(user);
         credentialsMatch = true;
       }
     });
     if (credentialsMatch) {
-      localStorage.setItem('user', JSON.stringify(current));
-      navigate('/home');
+      const userData = JSON.stringify(current);
+      localStorage.setItem('user', userData);
+      setUser(current);
+      navigate(`/home/${user.id}`);
     } else {
       console.log('Invalid credentials');
     }

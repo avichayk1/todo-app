@@ -1,13 +1,7 @@
 import React from 'react';
 import { FaPen, FaTrash } from 'react-icons/fa';
 
-const Todo = ({
-  todoItem,
-  clickToToggle,
-  clickToDelete,
-  handleTodoClick,
-  handleChange,
-}) => {
+const Todo = ({ todoItem, handleTodoClick }) => {
   const penStyle = { color: 'blue' };
   const trashStyle = { color: 'red' };
 
@@ -32,7 +26,7 @@ const Todo = ({
             {todoItem.title}
           </label>
         </div>
-        <button
+        {/* <button
           name="edit"
           className="btn btn-link"
           onClick={clickToToggle}
@@ -45,7 +39,7 @@ const Todo = ({
           onClick={handleChange}
         >
           <FaTrash style={trashStyle} />
-        </button>
+        </button> */}
       </div>
     </div>
   );

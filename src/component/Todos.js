@@ -1,18 +1,17 @@
 import React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { getTodos, getTodosByID } from '../API/todos';
 import { UserContext } from '../context/UserContext';
 import Todo from './Todo';
-
 const Todos = (props) => {
   const [todoList, setTodoList] = useState([]);
   const [user, setUser] = useContext(UserContext);
   const [sorting, setSorting] = useState('All'); // default sorting option
-  const [isLoading, setIsLoading] = useState(true);
-  const [newTodoItem, setnewTodoItem] = useState('');
-  const [newTodoTitle, setnewTodoTitle] = useState('');
+  const isLoading = useRef(true);
+  // const [newTodoItem, setnewTodoItem] = useState('');
+  // const [newTodoTitle, setnewTodoTitle] = useState('');
   const handleTodoClick = (id) => {
     const newTodoList = [...todoList];
     const todoItemForChange = newTodoList.find((todo) => todo.id === id);
@@ -21,37 +20,37 @@ const Todos = (props) => {
     setTodoList(newTodoList);
   };
 
-  const handleAdd = (event) => {
-    const key = event.target.id;
-    let newTodoList = [...todoList];
-    const newTodo = {
-      userId: user.id,
-      id: todoList.length + 1,
-      title: newTodoItem,
-      completed: false,
-    };
+  // const handleAdd = (event) => {
+  //   const key = event.target.id;
+  //   let newTodoList = [...todoList];
+  //   const newTodo = {
+  //     userId: user.id,
+  //     id: todoList.length + 1,
+  //     title: newTodoItem,
+  //     completed: false,
+  //   };
 
-    newTodoList.push(newTodo);
-    setTodoList(newTodoList);
-    console.log(newTodoList);
+  //   newTodoList.push(newTodo);
+  //   setTodoList(newTodoList);
+  //   console.log(newTodoList);
 
-    console.log(todoList);
-  };
-  const handleChange = (event) => {
-    const key = event.target.id;
+  //   console.log(todoList);
+  // };
+  // const handleChange = (event) => {
+  //   const key = event.target.id;
 
-    if (key === 'edit') {
-      const newTodoList = [...todoList];
-      const todoItemForChange = newTodoList.find((todo) => todo.id === key);
-      const index = newTodoList.indexOf(todoItemForChange);
-      newTodoList[index].title = newTodoTitle;
-      setTodoList(newTodoList);
-    } else if (key === 'delete') {
-      let newTodoList = todoList.filter((todo) => todo.id === event.target.id);
-      setTodoList(newTodoList);
-      console.log(todoList);
-    }
-  };
+  //   if (key === 'edit') {
+  //     const newTodoList = [...todoList];
+  //     const todoItemForChange = newTodoList.find((todo) => todo.id === key);
+  //     const index = newTodoList.indexOf(todoItemForChange);
+  //     newTodoList[index].title = newTodoTitle;
+  //     setTodoList(newTodoList);
+  //   } else if (key === 'delete') {
+  //     let newTodoList = todoList.filter((todo) => todo.id === event.target.id);
+  //     setTodoList(newTodoList);
+  //     console.log(todoList);
+  //   }
+  // };
 
   const sortTodos = () => {
     if (sorting === 'Completed') {
@@ -64,26 +63,26 @@ const Todos = (props) => {
   };
 
   useEffect(() => {
-    if (isLoading) {
-      getTodosByID(user.id)
-        .then((data) => {
-          setTodoList(data);
-        })
-        .catch((error) => {
-          console.log('Error fetching users:', error);
-        });
-      setIsLoading(false);
-    } else {
-      sortTodos();
-    }
-  }, [todoList]);
+    // if (isLoading.current) {
+    getTodosByID(user.id)
+      .then((data) => {
+        setTodoList(data);
+      })
+      .catch((error) => {
+        console.log('Error fetching users:', error);
+      });
+    //   isLoading.current = false;
+    // } else {
+    //   sortTodos();
+    // }
+  }, []);
 
   return (
     <div className="container">
       <h1 className="mb-4 display-4 fw-bold text-white  p-3 rounded">
         TodoList
       </h1>
-      <form className="mb-3">
+      {/* <form className="mb-3">
         <div className="input-group">
           <input
             value={newTodoItem}
@@ -103,7 +102,7 @@ const Todos = (props) => {
             Add
           </button>
         </div>
-      </form>
+      </form> */}
       <div
         className="btn-group mb-3"
         role="group"
@@ -150,7 +149,7 @@ const Todos = (props) => {
             key={todo.id}
             handleTodoClick={handleTodoClick}
             todoItem={todo}
-            handleChange={handleChange}
+            // handleChange={handleChange}
           />
         ))}
       </div>
