@@ -49,6 +49,7 @@ export function App() {
             path="/"
             element={<EnterPage />}
           ></Route>
+          <Route path="/todo"></Route>
           <Route
             path="*"
             element={<NotFound />}

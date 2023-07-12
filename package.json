@@ -35,5 +35,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoamSemhoun/FSWD6_REST-API_React-Advanced.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoamSemhoun/FSWD6_REST-API_React-Advanced/issues"
+  },
+  "homepage": "https://github.com/NoamSemhoun/FSWD6_REST-API_React-Advanced.git#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.5.1"
   }
 }

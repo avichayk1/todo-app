@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
-import getUsers from './API/users';
+import login from './API/users';
 const Login = (props) => {
   // const userString = localStorage.getItem('user');
   const [user, setUser] = useContext(UserContext);
@@ -10,39 +10,25 @@ const Login = (props) => {
   const [username, setUsername] = useState('');
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    getUsers()
-      .then((data) => {
-        setUsers(data);
-      })
-      .catch((error) => {
-        console.log('Error fetching users:', error);
-      });
-  }, []);
-  const handleSubmit = (e) => {
+  // useEffect(() => {
+  //   getUsers()
+  //     .then((data) => {
+  //       setUsers(data);
+  //       console.log('users' + users);
+  //     })
+  //     .catch((error) => {
+  //       console.log('Error fetching users:', error);
+  //     });
+  // }, []);
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let current = '';
-    let credentialsMatch = false;
-    // fetch('https://jsonplaceholder.typicode.com/users')
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    users.forEach((u) => {
-      if (u.email === email && u.username === username) {
-        current = u;
-        console.log(user);
-        setUser(user);
-        credentialsMatch = true;
-      }
-    });
-    if (credentialsMatch) {
-      const userData = JSON.stringify(current);
-      localStorage.setItem('user', userData);
-      setUser(current);
-      navigate(`/home/${user.id}`);
-    } else {
-      console.log('Invalid credentials');
-    }
-    // });
+    const user = await login(email, username);
+
+    const userData = JSON.stringify(current);
+    localStorage.setItem('user', userData);
+    setUser(current);
+    navigate(`/home/${user.id}`);
   };
   return (
     <React.Fragment>

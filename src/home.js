@@ -9,6 +9,26 @@ const Home = () => {
   const [mode, setMode] = useState('Info');
   const navigate = useNavigate();
 
+  const serverClick = () => {
+    fetch('http://localhost:8080')
+      .then((response) => {
+        // Check if the request was successful
+        if (response.ok) {
+          // Read the response body and return it as JSON
+          // return response.json();
+          return response;
+        } else {
+          throw new Error('Request failed');
+        }
+      })
+      .then((data) => {
+        console.log(data); // Log the response data
+      })
+      .catch((error) => {
+        console.log(error); // Log any errors that occurred
+      });
+  };
+
   const logout = () => {
     localStorage.setItem(
       'user',
@@ -65,6 +85,13 @@ const Home = () => {
           onClick={() => setMode('Info')}
         >
           Info
+        </button>
+        <button
+          className={`btn btn-outline-primary`}
+          id="Server"
+          onClick={() => serverClick()}
+        >
+          Server
         </button>
         {mode === 'Todos' && <Todos />}
         {mode === 'Albums' && <Albums />}

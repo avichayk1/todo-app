@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Import the Link component
 import { AlbumContext } from '../context/AlbumContext';
 
-const [albumNum, setalbumNum] = useContext(AlbumContext);
+// const [albumNum, setalbumNum] = useContext(AlbumContext);
 
 const Album = ({ albumItem }) => {
   const titleStyle = {
